@@ -12,10 +12,10 @@ interface TimePaymentDialogProps {
 }
 
 const TIME_PACKAGES = [
-  { duration: 3, price: 573, priceUSD: 0.25, label: '3 min', productId: '2wOUu' },
-  { duration: 5, price: 873, priceUSD: 0.35, label: '5 min', productId: 'cThEx' },
-  { duration: 10, price: 1573, priceUSD: 0.60, label: '10 min', productId: 'CAtN2' },
-  { duration: 30, price: 3573, priceUSD: 1.25, label: '30 min', productId: 'Dm7O3' }
+  { duration: 5, price: 573, priceUSD: 3.00, label: '5 min', productId: '2wOUu' },
+  { duration: 10, price: 873, priceUSD: 5.00, label: '10 min', productId: 'cThEx' },
+  { duration: 30, price: 1573, priceUSD: 7.00, label: '30 min', productId: 'CAtN2' },
+  { duration: 60, price: 3573, priceUSD: 10.00, label: '60 min', productId: 'Dm7O3' }
 ];
 
 export function TimePaymentDialog({ 
