@@ -199,7 +199,7 @@ export function TimePaymentDialog({
                   type="text"
                   value={productKey}
                   onChange={(e) => setProductKey(e.target.value)}
-                  placeholder="Product Key (e.g., 2wOUu)"
+                  placeholder="Product Key (the five characters below the licence key)"
                   className="w-full bg-black border border-[#ff0000] p-2 text-[#ff0000] font-mono placeholder-[#ff0000]/50"
                 />
               </div>
