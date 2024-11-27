@@ -1,0 +1,16 @@
+{
+  "name": "N.I.D.A.M",
+  "short_name": "NIDAM",
+  "description": "Neural Interface for Decentralized Artificial Minds",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#ff0000",
+  "icons": [
+    {
+      "src": "/cle.ico",
+      "sizes": "64x64",
+      "type": "image/x-icon"
+    }
+  ]
+}
