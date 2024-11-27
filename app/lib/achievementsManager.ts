@@ -1,3 +1,5 @@
+'use client';
+
 import { Achievement, UserStats } from './types';
 
 class AchievementsManager {
@@ -65,13 +67,18 @@ class AchievementsManager {
     achievements: this.achievements
   };
 
+  private isClient: boolean;
+
   constructor() {
-    this.loadStats();
-    this.checkDailyLogin();
+    this.isClient = typeof window !== 'undefined';
+    if (this.isClient) {
+      this.loadStats();
+      this.checkDailyLogin();
+    }
   }
 
   private loadStats() {
-    if (typeof window !== 'undefined') {
+    if (this.isClient) {
       const saved = localStorage.getItem(this.STORAGE_KEY);
       if (saved) {
         this.stats = JSON.parse(saved);
@@ -80,12 +87,14 @@ class AchievementsManager {
   }
 
   private saveStats() {
-    if (typeof window !== 'undefined') {
+    if (this.isClient) {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.stats));
     }
   }
 
   private checkDailyLogin() {
+    if (!this.isClient) return;
+
     const today = new Date().toDateString();
     if (this.stats.lastLoginDate !== today) {
       this.stats.dailyLogins++;
@@ -110,24 +119,32 @@ class AchievementsManager {
   }
 
   public trackMessage() {
+    if (!this.isClient) return;
+    
     this.stats.totalMessages++;
     this.checkAchievements();
     this.saveStats();
   }
 
   public trackSharedConversation() {
+    if (!this.isClient) return;
+    
     this.stats.totalConversationsShared++;
     this.checkAchievements();
     this.saveStats();
   }
 
   public trackTokensGenerated(tokens: number) {
+    if (!this.isClient) return;
+    
     this.stats.totalTokensGenerated += tokens;
     this.checkAchievements();
     this.saveStats();
   }
 
   private checkAchievements() {
+    if (!this.isClient) return;
+
     let newUnlocks = false;
 
     this.stats.achievements = this.stats.achievements.map(achievement => {
@@ -173,6 +190,8 @@ class AchievementsManager {
   }
 
   private notifyAchievement(achievement: Achievement) {
+    if (!this.isClient) return;
+
     const event = new CustomEvent('achievementUnlocked', {
       detail: achievement
     });
@@ -188,4 +207,28 @@ class AchievementsManager {
   }
 }
 
-export const achievementsManager = new AchievementsManager();
+// Create instance only on client-side
+let achievementsManager: AchievementsManager;
+
+if (typeof window !== 'undefined') {
+  achievementsManager = new AchievementsManager();
+} else {
+  // Provide a dummy instance for SSR
+  achievementsManager = {
+    trackMessage: () => {},
+    trackSharedConversation: () => {},
+    trackTokensGenerated: () => {},
+    getStats: () => ({
+      totalMessages: 0,
+      dailyLogins: 0,
+      consecutiveLogins: 0,
+      lastLoginDate: '',
+      totalTokensGenerated: 0,
+      totalConversationsShared: 0,
+      achievements: []
+    }),
+    getAchievements: () => []
+  } as AchievementsManager;
+}
+
+export { achievementsManager };
