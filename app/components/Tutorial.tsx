@@ -19,7 +19,7 @@ export function Tutorial({ isOpen, onClose }: TutorialProps) {
     },
     {
       title: 'Access Options',
-      content: 'Purchase access time using Bitcoin Lightning or card payment. You can also try a 3-minute guest trial to explore the interface.',
+      content: 'Purchase access time using Bitcoin Lightning (coming soon) or card payment. You can also try a 3-minute guest trial to explore the interface.',
       image: '⚡'
     },
     {
